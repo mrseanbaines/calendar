@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
-import Day from './components/Day';
-import reset from './reset';
-import theme from './theme';
+import Day from '~/components/Day';
+import reset from '~/reset';
+import theme from '~/theme';
 
 const GlobalStyles = createGlobalStyle`
   ${reset};
