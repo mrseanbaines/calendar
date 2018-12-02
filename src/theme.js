@@ -4,10 +4,10 @@ export default {
     '"Barlow", sans-serif',
   },
   colors: {
-    main: 'rgb(162,155,254)',
-    mainTransparent: '#ECEBFF',
+    main: '#A29BFE',
+    mainHover: '#B4AFFF',
+    mainSelectedHover: '#ECEBFF',
     white: '#fff',
-    whiteTransparent: 'rgba(255,255,255, 0.2)',
     black: '#000',
     greys: ['#d7dce0', '#535c68'],
   },

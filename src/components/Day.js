@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import styled, { css } from 'styled-components';
-import { Flex, Box } from '@rebass/grid';
+import { Flex } from '@rebass/grid';
 import SquareContainer from '~/components/SquareContainer';
 
 const selectedStyles = css`
@@ -10,9 +10,9 @@ const selectedStyles = css`
   z-index: -1;
 `;
 
-const StyledBox = styled(Box)`
-  width: 2em;
-  line-height: 2;
+const FlexInnerWrapper = styled(Flex)`
+  width: 70%;
+  height: 70%;
   border-radius: ${props => props.theme.radii[4]};
   text-align: center;
   color: ${props => props.selected ? props.theme.colors.white : props.theme.colors.greys[1]};
@@ -39,35 +39,35 @@ const StyledBox = styled(Box)`
       border-bottom-right-radius: ${props => props.theme.radii[4]};
     }
   `}
-
-  small {
-    font-size: 0.8em;
-  }
 `;
 
-const StyledFlex = styled(Flex)`
+const FlexOuterWrapper = styled(Flex)`
   cursor: pointer;
   overflow: hidden;
 
-  :hover > ${StyledBox} {
+  :hover > ${FlexInnerWrapper} {
     background: ${props => (
-      props.selectedStart || props.selectedMiddle || props.selectedEnd ?
-      props.theme.colors.whiteTransparent : props.theme.colors.mainTransparent
+      props.selected ? props.theme.colors.mainHover : props.theme.colors.mainSelectedHover
     )};
   }
 `;
 
 export default memo(({ dayContents, ...props }) => (
   <SquareContainer>
-    <StyledFlex
+    <FlexOuterWrapper
       justifyContent='center'
       alignItems='center'
       style={{ height: '100%' }}
       {...props}
     >
-      <StyledBox {...props} fontSize={[14, 16, 18, 20]}>
+      <FlexInnerWrapper
+        {...props}
+        fontSize={[14, 16, 18, 20]}
+        justifyContent='center'
+        alignItems='center'
+      >
         {dayContents}
-      </StyledBox>
-    </StyledFlex>
+      </FlexInnerWrapper>
+    </FlexOuterWrapper>
   </SquareContainer>
 ));

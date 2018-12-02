@@ -4,6 +4,7 @@ import Day from '~/components/Day';
 import reset from '~/reset';
 import theme from '~/theme';
 import { Flex, Box } from '@rebass/grid';
+import getDate from 'date-fns/get_date';
 
 const GlobalStyles = createGlobalStyle`
   ${reset};
@@ -21,27 +22,48 @@ class App extends Component {
       <ThemeProvider theme={theme}>
         <Fragment>
           <GlobalStyles />
-          <Flex>
+          <Flex flexWrap='wrap'>
             <Box width={1/7}>
-              <Day dayContents={7} />
+              <Day dayContents={getDate(new Date(2018, 11, 7))} />
             </Box>
             <Box width={1/7}>
-              <Day dayContents={8} selected />
+              <Day dayContents={getDate(new Date(2018, 11, 8))} selected selectedStart />
             </Box>
             <Box width={1/7}>
-              <Day dayContents={9} selected selectedStart />
+              <Day dayContents={getDate(new Date(2018, 11, 9))} selected selectedMiddle />
             </Box>
             <Box width={1/7}>
-              <Day dayContents={10} selected selectedMiddle />
+              <Day dayContents={getDate(new Date(2018, 11, 10))} selected selectedEnd />
             </Box>
             <Box width={1/7}>
-              <Day dayContents={11} selected selectedEnd />
+              <Day dayContents={getDate(new Date(2018, 11, 11))} />
             </Box>
             <Box width={1/7}>
-              <Day dayContents={12} />
+              <Day dayContents={getDate(new Date(2018, 11, 12))} />
             </Box>
             <Box width={1/7}>
-              <Day dayContents={13} />
+              <Day dayContents={getDate(new Date(2018, 11, 13))} selected selectedStart />
+            </Box>
+            <Box width={1/7}>
+              <Day dayContents={getDate(new Date(2018, 11, 14))} selected selectedMiddle />
+            </Box>
+            <Box width={1/7}>
+              <Day dayContents={getDate(new Date(2018, 11, 15))} selected selectedMiddle />
+            </Box>
+            <Box width={1/7}>
+              <Day dayContents={getDate(new Date(2018, 11, 16))} selected selectedEnd />
+            </Box>
+            <Box width={1/7}>
+              <Day dayContents={getDate(new Date(2018, 11, 17))} />
+            </Box>
+            <Box width={1/7}>
+              <Day dayContents={getDate(new Date(2018, 11, 18))} selected />
+            </Box>
+            <Box width={1/7}>
+              <Day dayContents={getDate(new Date(2018, 11, 19))} />
+            </Box>
+            <Box width={1/7}>
+              <Day dayContents={getDate(new Date(2018, 11, 20))} />
             </Box>
           </Flex>
         </Fragment>
