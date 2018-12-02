@@ -10,15 +10,14 @@ const FlexWrapper = styled(Flex)`
   color: ${props => props.theme.colors.main};
 `;
 
-export default memo(({ dayContents, ...props }) => (
+export default memo(({ weekDayContents }) => (
   <SquareContainer>
     <FlexWrapper
       justifyContent='center'
       alignItems='center'
-      fontSize={[14, 16, 18, 20]}
-      {...props}
+      fontSize={[16, 18, 20, 22]}
     >
-      {dayContents}
+      {weekDayContents}
     </FlexWrapper>
   </SquareContainer>
 ));

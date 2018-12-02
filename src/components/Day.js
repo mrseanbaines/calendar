@@ -11,8 +11,8 @@ const selectedStyles = css`
 `;
 
 const FlexInnerWrapper = styled(Flex)`
-  width: 70%;
-  height: 70%;
+  width: 2.5em;
+  height: 2.5em;
   border-radius: ${props => props.theme.radii[4]};
   text-align: center;
   color: ${props => props.selected ? props.theme.colors.white : props.theme.colors.greys[1]};
@@ -62,7 +62,7 @@ export default memo(({ dayContents, ...props }) => (
     >
       <FlexInnerWrapper
         {...props}
-        fontSize={[14, 16, 18, 20]}
+        fontSize={[16, 18, 20, 22]}
         justifyContent='center'
         alignItems='center'
       >
