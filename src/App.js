@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import Day from '~/components/Day';
+import WeekDay from '~/components/WeekDay';
 import reset from '~/reset';
 import theme from '~/theme';
 import { Flex, Box } from '@rebass/grid';
-import getDate from 'date-fns/get_date';
+import { getDate, getDay, format } from 'date-fns';
 
 const GlobalStyles = createGlobalStyle`
   ${reset};
@@ -22,6 +23,30 @@ class App extends Component {
       <ThemeProvider theme={theme}>
         <Fragment>
           <GlobalStyles />
+          <Flex>
+            <Box width={1/7}>
+              <WeekDay dayContents={format(new Date(2018, 11, 10), 'dd').slice(0, 1)} />
+            </Box>
+            <Box width={1/7}>
+              <WeekDay dayContents={format(new Date(2018, 11, 11), 'dd').slice(0, 1)} />
+            </Box>
+            <Box width={1/7}>
+              <WeekDay dayContents={format(new Date(2018, 11, 12), 'dd').slice(0, 1)} />
+            </Box>
+            <Box width={1/7}>
+              <WeekDay dayContents={format(new Date(2018, 11, 13), 'dd').slice(0, 1)} />
+            </Box>
+            <Box width={1/7}>
+              <WeekDay dayContents={format(new Date(2018, 11, 14), 'dd').slice(0, 1)} />
+            </Box>
+            <Box width={1/7}>
+              <WeekDay dayContents={format(new Date(2018, 11, 15), 'dd').slice(0, 1)} />
+            </Box>
+            <Box width={1/7}>
+              <WeekDay dayContents={format(new Date(2018, 11, 16), 'dd').slice(0, 1)} />
+            </Box>
+          </Flex>
+
           <Flex flexWrap='wrap'>
             <Box width={1/7}>
               <Day dayContents={getDate(new Date(2018, 11, 7))} />
