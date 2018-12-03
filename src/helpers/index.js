@@ -10,46 +10,50 @@ import {
   addMonths,
 } from 'date-fns';
 
-export const getMonth = month => {
+export const getMonth = (month, weekStartsOn) => {
   const monthStart = startOfMonth(month);
-  const weekStart = startOfWeek(monthStart, { weekStartsOn: 1 });
   const monthEnd = endOfMonth(month);
-  const weekEnd = endOfWeek(monthEnd, { weekStartsOn: 1 });
+  const weekStart = startOfWeek(monthStart, { weekStartsOn });
+  const weekEnd = endOfWeek(monthEnd, { weekStartsOn });
   const daysInMonth = getDaysInMonth(month);
   const daysBefore = differenceInCalendarDays(monthStart, weekStart);
   const daysAfter = differenceInCalendarDays(weekEnd, monthEnd);
   const daysInMonthView = daysInMonth + daysBefore + daysAfter;
 
-  let thisMonth = {
+  const currentMonth = {
     date: monthStart,
     weeks: [],
   };
   let week = [];
 
   for (let i = 0; i < daysInMonthView; i++) {
-    let day = addDays(weekStart, i);
+    const day = addDays(weekStart, i);
+
     if (isSameMonth(day, month)) {
       week.push(day);
     } else {
       week.push(null);
     }
+
     if (week.length % 7 === 0) {
-      thisMonth.weeks.push(week);
+      currentMonth.weeks.push(week);
       week = [];
     }
   }
 
-  return thisMonth;
+  return currentMonth;
 }
 
-export const getMonths = (firstMonth = new Date()) => (
-  (numberOfMonths = 1) => {
-    const months = [];
+export const getMonths = (
+  firstMonth = new Date(),
+  numberOfMonths = 1,
+  weekStartsOn = 1,
+) => {
+  const months = [];
 
-    for (let i = 0; i < numberOfMonths; i++) {
-      months.push(getMonth(addMonths(firstMonth, i)));
-    }
-
-    return months;
+  for (let i = 0; i < numberOfMonths; i++) {
+    months.push(getMonth(addMonths(firstMonth, i), weekStartsOn));
   }
-)
+
+  return months;
+}

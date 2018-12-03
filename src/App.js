@@ -1,19 +1,15 @@
 import React, { Component, Fragment } from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { Flex, Box } from '@rebass/grid';
+import styled from 'styled-components';
+import { getDate, format, addMonths } from 'date-fns';
+import reset from '~/reset';
+import theme from '~/theme';
 import Day from '~/components/Day';
 import WeekDay from '~/components/WeekDay';
 import MonthHeading from '~/components/MonthHeading';
 import SquareContainer from '~/components/SquareContainer';
-import reset from '~/reset';
-import theme from '~/theme';
-import { Flex, Box } from '@rebass/grid';
-import { getDate, format } from 'date-fns';
 import { getMonths } from '~/helpers';
-import styled from 'styled-components';
-
-const firstMonth = new Date();
-const numberOfMonths = 2;
-const months = getMonths(firstMonth)(numberOfMonths);
 
 const GlobalStyles = createGlobalStyle`
   ${reset};
@@ -32,6 +28,8 @@ const FlexWeekDayHeader = styled(Flex)`
 
 class App extends Component {
   render() {
+    const months = this.props.months();
+
     return (
       <ThemeProvider theme={theme}>
         <Fragment>
@@ -97,5 +95,14 @@ class App extends Component {
     );
   }
 }
+
+App.defaultProps = {
+  weekStartsOn: 1,
+  firstMonth: addMonths(new Date(), 2),
+  numberOfMonths: 18,
+  months() {
+    return getMonths(this.firstMonth, this.numberOfMonths, this.weekStartsOn);
+  },
+};
 
 export default App;
