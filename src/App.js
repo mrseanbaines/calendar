@@ -9,6 +9,7 @@ import theme from '~/theme';
 import { Flex, Box } from '@rebass/grid';
 import { getDate, format } from 'date-fns';
 import { getMonths } from '~/helpers';
+import styled from 'styled-components';
 
 const firstMonth = new Date();
 const numberOfMonths = 2;
@@ -24,13 +25,18 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
+const FlexWeekDayHeader = styled(Flex)`
+  position: fixed;
+  z-index: 1;
+`;
+
 class App extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
         <Fragment>
           <GlobalStyles />
-          <Flex width={1/1} style={{ position: 'fixed' }}>
+          <FlexWeekDayHeader width={1}>
             <Box width={1/7}>
               <WeekDay weekDayContents={format(new Date(2018, 11, 10), 'dd').slice(0, 1)} />
             </Box>
@@ -52,7 +58,7 @@ class App extends Component {
             <Box width={1/7}>
               <WeekDay weekDayContents={format(new Date(2018, 11, 16), 'dd').slice(0, 1)} />
             </Box>
-          </Flex>
+          </FlexWeekDayHeader>
 
           <Flex>
             <Box width={1/7}>
