@@ -8,6 +8,7 @@ import {
   differenceInCalendarDays,
   isSameMonth,
   addMonths,
+  eachDay,
 } from 'date-fns';
 
 export const getMonth = (month, weekStartsOn) => {
@@ -56,4 +57,13 @@ export const getMonths = (
   }
 
   return months;
+}
+
+export const getWeek = (weekStartsOn = 1, dayFormat = 'dd') => {
+  const date = new Date();
+  const weekStart = startOfWeek(date, { weekStartsOn });
+  const weekEnd = endOfWeek(date, { weekStartsOn });
+  const week = eachDay(weekStart, weekEnd);
+
+  return week;
 }

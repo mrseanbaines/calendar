@@ -1,15 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { Flex, Box } from '@rebass/grid';
-import styled from 'styled-components';
 import { getDate, format, addMonths } from 'date-fns';
 import reset from '~/reset';
 import theme from '~/theme';
 import Day from '~/components/Day';
-import WeekDay from '~/components/WeekDay';
+import WeekDayHeader from '~/components/WeekDayHeader';
 import MonthHeading from '~/components/MonthHeading';
 import SquareContainer from '~/components/SquareContainer';
-import { getMonths } from '~/helpers';
+import { getMonths, getWeek } from '~/helpers';
 
 const GlobalStyles = createGlobalStyle`
   ${reset};
@@ -21,42 +20,16 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-const FlexWeekDayHeader = styled(Flex)`
-  position: fixed;
-  z-index: 1;
-`;
-
 class App extends Component {
   render() {
     const months = this.props.months();
+    const week = this.props.week();
 
     return (
       <ThemeProvider theme={theme}>
         <Fragment>
           <GlobalStyles />
-          <FlexWeekDayHeader width={1}>
-            <Box width={1/7}>
-              <WeekDay weekDayContents={format(new Date(2018, 11, 10), 'dd').slice(0, 1)} />
-            </Box>
-            <Box width={1/7}>
-              <WeekDay weekDayContents={format(new Date(2018, 11, 11), 'dd').slice(0, 1)} />
-            </Box>
-            <Box width={1/7}>
-              <WeekDay weekDayContents={format(new Date(2018, 11, 12), 'dd').slice(0, 1)} />
-            </Box>
-            <Box width={1/7}>
-              <WeekDay weekDayContents={format(new Date(2018, 11, 13), 'dd').slice(0, 1)} />
-            </Box>
-            <Box width={1/7}>
-              <WeekDay weekDayContents={format(new Date(2018, 11, 14), 'dd').slice(0, 1)} />
-            </Box>
-            <Box width={1/7}>
-              <WeekDay weekDayContents={format(new Date(2018, 11, 15), 'dd').slice(0, 1)} />
-            </Box>
-            <Box width={1/7}>
-              <WeekDay weekDayContents={format(new Date(2018, 11, 16), 'dd').slice(0, 1)} />
-            </Box>
-          </FlexWeekDayHeader>
+          <WeekDayHeader week={week} />
 
           <Flex>
             <Box width={1/7}>
@@ -100,8 +73,12 @@ App.defaultProps = {
   weekStartsOn: 1,
   firstMonth: addMonths(new Date(), 2),
   numberOfMonths: 18,
+  dayFormat: 'dd',
   months() {
     return getMonths(this.firstMonth, this.numberOfMonths, this.weekStartsOn);
+  },
+  week() {
+    return getWeek(this.weekStartsOn, this.dayFormat)
   },
 };
 
