@@ -7,7 +7,12 @@ import SquareContainer from '~/components/SquareContainer';
 import reset from '~/reset';
 import theme from '~/theme';
 import { Flex, Box } from '@rebass/grid';
-import { getDate, getDay, format } from 'date-fns';
+import { getDate, format } from 'date-fns';
+import { getMonths } from '~/helpers';
+
+const firstMonth = new Date();
+const numberOfMonths = 2;
+const months = getMonths(firstMonth)(numberOfMonths);
 
 const GlobalStyles = createGlobalStyle`
   ${reset};
@@ -25,7 +30,7 @@ class App extends Component {
       <ThemeProvider theme={theme}>
         <Fragment>
           <GlobalStyles />
-          <Flex>
+          <Flex width={1/1} style={{ position: 'fixed' }}>
             <Box width={1/7}>
               <WeekDay weekDayContents={format(new Date(2018, 11, 10), 'dd').slice(0, 1)} />
             </Box>
@@ -49,64 +54,38 @@ class App extends Component {
             </Box>
           </Flex>
 
-          <Flex justifyContent='space-between'>
-            <Box width={1/7}>
-              <SquareContainer />
-            </Box>
-            <Flex alignItems='center'>
-              <MonthHeading>
-                {format(new Date(2018, 11), 'MMM YYYY')}
-              </MonthHeading>
-            </Flex>
+          <Flex>
             <Box width={1/7}>
               <SquareContainer />
             </Box>
           </Flex>
 
-          <Flex flexWrap='wrap'>
-            <Box width={1/7}>
-              <Day dayContents={getDate(new Date(2018, 11, 7))} />
-            </Box>
-            <Box width={1/7}>
-              <Day dayContents={getDate(new Date(2018, 11, 8))} selected selectedStart />
-            </Box>
-            <Box width={1/7}>
-              <Day dayContents={getDate(new Date(2018, 11, 9))} selected selectedMiddle />
-            </Box>
-            <Box width={1/7}>
-              <Day dayContents={getDate(new Date(2018, 11, 10))} selected selectedEnd />
-            </Box>
-            <Box width={1/7}>
-              <Day dayContents={getDate(new Date(2018, 11, 11))} />
-            </Box>
-            <Box width={1/7}>
-              <Day dayContents={getDate(new Date(2018, 11, 12))} />
-            </Box>
-            <Box width={1/7}>
-              <Day dayContents={getDate(new Date(2018, 11, 13))} selected selectedStart />
-            </Box>
-            <Box width={1/7}>
-              <Day dayContents={getDate(new Date(2018, 11, 14))} selected selectedMiddle />
-            </Box>
-            <Box width={1/7}>
-              <Day dayContents={getDate(new Date(2018, 11, 15))} selected selectedMiddle />
-            </Box>
-            <Box width={1/7}>
-              <Day dayContents={getDate(new Date(2018, 11, 16))} selected selectedEnd />
-            </Box>
-            <Box width={1/7}>
-              <Day dayContents={getDate(new Date(2018, 11, 17))} />
-            </Box>
-            <Box width={1/7}>
-              <Day dayContents={getDate(new Date(2018, 11, 18))} selected />
-            </Box>
-            <Box width={1/7}>
-              <Day dayContents={getDate(new Date(2018, 11, 19))} />
-            </Box>
-            <Box width={1/7}>
-              <Day dayContents={getDate(new Date(2018, 11, 20))} />
-            </Box>
-          </Flex>
+          {months.map((month, i) => (
+            <Fragment key={i}>
+              <Flex justifyContent='space-between'>
+                <Box width={1/7}>
+                  <SquareContainer />
+                </Box>
+                <Flex alignItems='center'>
+                  <MonthHeading>
+                    {format(month.date, 'MMM YYYY')}
+                  </MonthHeading>
+                </Flex>
+                <Box width={1/7}>
+                  <SquareContainer />
+                </Box>
+              </Flex>
+              {month.weeks.map((week, i) => (
+                <Flex key={i} flexWrap='wrap'>
+                  {week.map((day, i) => (
+                    <Box key={i} width={1/7}>
+                      <Day dayContents={day && getDate(day)} />
+                    </Box>
+                  ))}
+                </Flex>
+              ))}
+            </Fragment>
+          ))}
         </Fragment>
       </ThemeProvider>
     );

@@ -54,20 +54,22 @@ const FlexOuterWrapper = styled(Flex)`
 
 export default memo(({ dayContents, ...props }) => (
   <SquareContainer>
-    <FlexOuterWrapper
-      justifyContent='center'
-      alignItems='center'
-      style={{ height: '100%' }}
-      {...props}
-    >
-      <FlexInnerWrapper
-        {...props}
-        fontSize={[16, 18, 20, 22]}
+    {dayContents && (
+      <FlexOuterWrapper
         justifyContent='center'
         alignItems='center'
+        style={{ height: '100%' }}
+        {...props}
       >
-        {dayContents}
-      </FlexInnerWrapper>
-    </FlexOuterWrapper>
+        <FlexInnerWrapper
+          {...props}
+          fontSize={[16, 18, 20, 22]}
+          justifyContent='center'
+          alignItems='center'
+        >
+          {dayContents}
+        </FlexInnerWrapper>
+      </FlexOuterWrapper>
+    )}
   </SquareContainer>
 ));

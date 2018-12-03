@@ -8,6 +8,7 @@ const FlexWrapper = styled(Flex)`
   cursor: default;
   user-select: none;
   color: ${props => props.theme.colors.main};
+  background: ${props => props.theme.colors.white};
 `;
 
 export default memo(({ weekDayContents }) => (
