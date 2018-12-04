@@ -1,7 +1,14 @@
 import React, { PureComponent, Fragment } from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { Flex, Box } from '@rebass/grid';
-import { getDate, format, addMonths } from 'date-fns';
+import {
+  getDate,
+  format,
+  addMonths,
+  isSameDay,
+  isAfter,
+  isBefore,
+} from 'date-fns';
 import reset from '~/reset';
 import theme from '~/theme';
 import Day from '~/components/Day';
@@ -9,6 +16,10 @@ import WeekDayHeader from '~/components/WeekDayHeader';
 import MonthHeading from '~/components/MonthHeading';
 import SquareContainer from '~/components/SquareContainer';
 import { getMonths, getWeek } from '~/helpers';
+import {
+  START_DATE,
+  END_DATE,
+} from '~/constants';
 
 const GlobalStyles = createGlobalStyle`
   ${reset};
@@ -21,6 +32,23 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 class App extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      startDate: null,
+      endDate: null,
+      focusedDate: START_DATE,
+    };
+  }
+
+  handleDateSelect = day => {
+    this.setState(prevState => ({
+      [prevState.focusedDate]: day,
+      focusedDate: prevState.focusedDate === START_DATE ? END_DATE : START_DATE,
+    }));
+  }
+
   render() {
     const months = this.props.months();
     const week = this.props.week();
@@ -28,6 +56,10 @@ class App extends PureComponent {
       weekDayFormat,
       singleLetterWeekDay,
     } = this.props;
+    const {
+      startDate,
+      endDate,
+    } = this.state;
 
     return (
       <ThemeProvider theme={theme}>
@@ -59,7 +91,21 @@ class App extends PureComponent {
                 <Flex key={i} flexWrap='wrap'>
                   {week.map((day, i) => (
                     <Box key={i} width={1/7}>
-                      <Day dayContents={day && getDate(day)} />
+                      <Day
+                        handleDateSelect={this.handleDateSelect}
+                        dayContents={day && getDate(day)}
+                        selected={
+                          isSameDay(day, startDate) ||
+                          isSameDay(day, endDate) ||
+                          (isBefore(day, endDate) && isAfter(day, startDate))
+                        }
+                        selectedStart={startDate && endDate && isSameDay(day, startDate)}
+                        selectedEnd={startDate && endDate && isSameDay(day, endDate)}
+                        selectedMiddle={
+                          startDate && endDate && isBefore(day, endDate) && isAfter(day, startDate)
+                        }
+                        day={day}
+                      />
                     </Box>
                   ))}
                 </Flex>

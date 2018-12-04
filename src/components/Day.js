@@ -52,10 +52,11 @@ const FlexOuterWrapper = styled(Flex)`
   }
 `;
 
-export default memo(({ dayContents, ...props }) => (
+export default memo(({ dayContents, handleDateSelect, day, ...props }) => (
   <SquareContainer>
     {dayContents && (
       <FlexOuterWrapper
+        onClick={() => handleDateSelect(day)}
         justifyContent='center'
         alignItems='center'
         style={{ height: '100%' }}
