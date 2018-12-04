@@ -10,8 +10,8 @@ const StyledMonthHeading = styled.h2`
   text-transform: uppercase;
 `;
 
-export default memo(({ children }) => (
-  <StyledMonthHeading fontSize={[16, 18, 20, 22]}>
+export default memo(({ children, id }) => (
+  <StyledMonthHeading id={id} fontSize={[16, 18, 20, 22]}>
     {children}
   </StyledMonthHeading>
 ));

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { Flex, Box } from '@rebass/grid';
 import { getDate, format, addMonths } from 'date-fns';
@@ -20,31 +20,34 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-class App extends Component {
+class App extends PureComponent {
   render() {
     const months = this.props.months();
     const week = this.props.week();
+    const {
+      weekDayFormat,
+      singleLetterWeekDay,
+    } = this.props;
 
     return (
       <ThemeProvider theme={theme}>
         <Fragment>
           <GlobalStyles />
-          <WeekDayHeader week={week} />
 
-          <Flex>
-            <Box width={1/7}>
-              <SquareContainer />
-            </Box>
-          </Flex>
+          <WeekDayHeader
+            week={week}
+            weekDayFormat={weekDayFormat}
+            singleLetterWeekDay={singleLetterWeekDay}
+          />
 
-          {months.map((month, i) => (
-            <Fragment key={i}>
+          {months.map(month => (
+            <Fragment key={format(month.date, 'MMM-YYYY')}>
               <Flex justifyContent='space-between'>
                 <Box width={1/7}>
                   <SquareContainer />
                 </Box>
                 <Flex alignItems='center'>
-                  <MonthHeading>
+                  <MonthHeading id={format(month.date, 'MMM-YYYY').toLowerCase()}>
                     {format(month.date, 'MMM YYYY')}
                   </MonthHeading>
                 </Flex>
@@ -63,6 +66,7 @@ class App extends Component {
               ))}
             </Fragment>
           ))}
+
         </Fragment>
       </ThemeProvider>
     );
@@ -73,12 +77,13 @@ App.defaultProps = {
   weekStartsOn: 1,
   firstMonth: addMonths(new Date(), 2),
   numberOfMonths: 18,
-  dayFormat: 'dd',
+  weekDayFormat: 'dd',
+  singleLetterWeekDay: true,
   months() {
     return getMonths(this.firstMonth, this.numberOfMonths, this.weekStartsOn);
   },
   week() {
-    return getWeek(this.weekStartsOn, this.dayFormat)
+    return getWeek(this.weekStartsOn);
   },
 };
 

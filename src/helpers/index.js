@@ -59,7 +59,7 @@ export const getMonths = (
   return months;
 }
 
-export const getWeek = (weekStartsOn = 1, dayFormat = 'dd') => {
+export const getWeek = (weekStartsOn = 1) => {
   const date = new Date();
   const weekStart = startOfWeek(date, { weekStartsOn });
   const weekEnd = endOfWeek(date, { weekStartsOn });
