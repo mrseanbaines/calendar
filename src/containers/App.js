@@ -135,8 +135,8 @@ class App extends PureComponent {
 
 App.defaultProps = {
   weekStartsOn: 1,
-  firstMonth: addMonths(new Date(), 2),
-  numberOfMonths: 18,
+  firstMonth: addMonths(new Date(), 0),
+  numberOfMonths: 3,
   weekDayFormat: 'dd',
   singleLetterWeekDay: true,
   months() {
