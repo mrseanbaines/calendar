@@ -43,10 +43,24 @@ class App extends PureComponent {
   }
 
   handleDateSelect = day => {
-    this.setState(prevState => ({
-      [prevState.focusedDate]: day,
-      focusedDate: prevState.focusedDate === START_DATE ? END_DATE : START_DATE,
-    }));
+    const { startDate, endDate } = this.state;
+
+    if (
+      (startDate && endDate) ||
+      (startDate && isBefore(day, startDate)) ||
+      (startDate && isSameDay(day, startDate))
+    ) {
+      this.setState({
+        startDate: day,
+        endDate: null,
+        focusedDate: END_DATE,
+      });
+    } else {
+      this.setState(prevState => ({
+        [prevState.focusedDate]: day,
+        focusedDate: prevState.focusedDate === START_DATE ? END_DATE : START_DATE,
+      }));
+    }
   }
 
   render() {
