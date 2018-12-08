@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
 import { Flex } from '@rebass/grid';
-import SquareContainer from '~/components/SquareContainer';
+import { SquareContainer } from '~/components/Containers';
 
 const FlexWrapper = styled(Flex)`
   height: 100%;

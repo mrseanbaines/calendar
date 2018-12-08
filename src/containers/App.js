@@ -1,20 +1,16 @@
 import React, { PureComponent, Fragment } from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
-import { Flex, Box } from '@rebass/grid';
 import {
-  getDate,
   format,
   addMonths,
   isSameDay,
-  isAfter,
   isBefore,
 } from 'date-fns';
 import reset from '~/reset';
 import theme from '~/theme';
-import Day from '~/components/Day';
+import Month from '~/components/Month';
 import WeekDayHeader from '~/components/WeekDayHeader';
 import MonthHeading from '~/components/MonthHeading';
-import SquareContainer from '~/components/SquareContainer';
 import { getMonths, getWeek } from '~/helpers';
 import {
   START_DATE,
@@ -56,9 +52,9 @@ class App extends PureComponent {
         focusedDate: END_DATE,
       });
     } else {
-      this.setState(prevState => ({
-        [prevState.focusedDate]: day,
-        focusedDate: prevState.focusedDate === START_DATE ? END_DATE : START_DATE,
+      this.setState(({ focusedDate }) => ({
+        [focusedDate]: day,
+        focusedDate: focusedDate === START_DATE ? END_DATE : START_DATE,
       }));
     }
   }
@@ -66,18 +62,13 @@ class App extends PureComponent {
   render() {
     const months = this.props.months();
     const week = this.props.week();
-    const {
-      weekDayFormat,
-      singleLetterWeekDay,
-    } = this.props;
-    const {
-      startDate,
-      endDate,
-    } = this.state;
+    const { weekDayFormat, singleLetterWeekDay } = this.props;
+    const { startDate, endDate } = this.state;
 
     return (
       <ThemeProvider theme={theme}>
         <Fragment>
+
           <GlobalStyles />
 
           <WeekDayHeader
@@ -88,42 +79,17 @@ class App extends PureComponent {
 
           {months.map(month => (
             <Fragment key={format(month.date, 'MMM-YYYY')}>
-              <Flex justifyContent='space-between'>
-                <Box width={1/7}>
-                  <SquareContainer />
-                </Box>
-                <Flex alignItems='center'>
-                  <MonthHeading id={format(month.date, 'MMM-YYYY').toLowerCase()}>
-                    {format(month.date, 'MMM YYYY')}
-                  </MonthHeading>
-                </Flex>
-                <Box width={1/7}>
-                  <SquareContainer />
-                </Box>
-              </Flex>
-              {month.weeks.map((week, i) => (
-                <Flex key={i} flexWrap='wrap'>
-                  {week.map((day, i) => (
-                    <Box key={i} width={1/7}>
-                      <Day
-                        handleDateSelect={this.handleDateSelect}
-                        dayContents={day && getDate(day)}
-                        selected={
-                          isSameDay(day, startDate) ||
-                          isSameDay(day, endDate) ||
-                          (isBefore(day, endDate) && isAfter(day, startDate))
-                        }
-                        selectedStart={startDate && endDate && isSameDay(day, startDate)}
-                        selectedEnd={startDate && endDate && isSameDay(day, endDate)}
-                        selectedMiddle={
-                          startDate && endDate && isBefore(day, endDate) && isAfter(day, startDate)
-                        }
-                        day={day}
-                      />
-                    </Box>
-                  ))}
-                </Flex>
-              ))}
+              <MonthHeading
+                month={month}
+                id={`${format(month.date, 'MMM-YYYY').toLowerCase()}-heading`}
+              />
+              <Month
+                id={format(month.date, 'MMM-YYYY').toLowerCase()}
+                month={month}
+                startDate={startDate}
+                endDate={endDate}
+                handleDateSelect={this.handleDateSelect}
+              />
             </Fragment>
           ))}
 

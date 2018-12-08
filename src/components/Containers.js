@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Outer = styled.div`
   position: relative;
-  padding-top: 100%;
+  padding-top: ${props => props.isFullWidth ? 'calc(100% / 7)' : '100%'};
 `;
 
 const Inner = styled.div`
@@ -14,10 +14,13 @@ const Inner = styled.div`
   height: 100%;
 `;
 
-export default memo(props => (
-  <Outer>
+const Container = isFullWidth => memo(props => (
+  <Outer isFullWidth={isFullWidth} {...props}>
     <Inner>
       {props.children}
     </Inner>
   </Outer>
 ));
+
+export const SquareContainer = Container();
+export const FullWidthContainer = Container(true);

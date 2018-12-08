@@ -1,9 +1,9 @@
-import React, { memo, Fragment } from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { Flex, Box } from '@rebass/grid';
 import { format } from 'date-fns';
 import WeekDay from '~/components/WeekDay';
-import SquareContainer from '~/components/SquareContainer';
+import { FullWidthContainer } from '~/components/Containers';
 
 const FlexWeekDayHeader = styled(Flex)`
   position: fixed;
@@ -11,18 +11,17 @@ const FlexWeekDayHeader = styled(Flex)`
 `;
 
 export default memo(({ week, weekDayFormat, singleLetterWeekDay }) => (
-  <Fragment>
+  <FullWidthContainer>
     <FlexWeekDayHeader width={1}>
       {week.map(day => (
         <Box key={format(day, 'dd')} width={1/7}>
           <WeekDay
-            weekDayContents={format(day, weekDayFormat).slice(0, singleLetterWeekDay ? 1 : day.length)}
+            weekDayContents={
+              format(day, weekDayFormat).slice(0, singleLetterWeekDay ? 1 : day.length)
+            }
           />
         </Box>
       ))}
     </FlexWeekDayHeader>
-    <Box width={1/7}>
-      <SquareContainer />
-    </Box>
-  </Fragment>
+  </FullWidthContainer>
 ));

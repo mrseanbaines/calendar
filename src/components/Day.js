@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import styled, { css } from 'styled-components';
 import { Flex } from '@rebass/grid';
-import SquareContainer from '~/components/SquareContainer';
+import { SquareContainer } from '~/components/Containers';
 
 const selectedStyles = css`
   content: '';
