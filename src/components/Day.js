@@ -23,6 +23,7 @@ const FlexInnerWrapper = styled(Flex)`
   ${props => props.selected && (props.selectedStart || props.selectedMiddle) && css`
     ::after {
       ${selectedStyles};
+      top: 0;
       left: 0;
       border-right: 9999em solid ${props.theme.colors.main};
       border-top-left-radius: ${props => props.theme.radii[4]};
@@ -33,6 +34,7 @@ const FlexInnerWrapper = styled(Flex)`
   ${props => props.selected && (props.selectedEnd || props.selectedMiddle) && css`
     ::before {
       ${selectedStyles};
+      top: 0;
       right: 0;
       border-left: 9999em solid ${props.theme.colors.main};
       border-top-right-radius: ${props => props.theme.radii[4]};
