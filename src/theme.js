@@ -3,6 +3,9 @@ export default {
     sansSerif:
     '"Barlow", sans-serif',
   },
+  fontWeights: {
+    medium: 600,
+  },
   colors: {
     main: '#A29BFE',
     mainHover: '#B4AFFF',

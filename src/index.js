@@ -13,6 +13,7 @@ const GlobalStyles = createGlobalStyle`
 
   html {
     font-family: ${props => props.theme.fonts.sansSerif};
+    font-weight: ${props => props.theme.fontWeights.medium};
     color: ${props => props.theme.colors.greys[1]};
   }
 `;
