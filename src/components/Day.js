@@ -1,46 +1,42 @@
 import React, { memo } from 'react';
 import styled, { css } from 'styled-components';
+import { themeGet } from 'styled-system';
 import { Flex } from '@rebass/grid';
 import { SquareContainer } from '~/components/Containers';
 
 const selectedStyles = css`
   content: '';
+  background: ${themeGet('colors.main')};
   height: 100%;
+  width: 100%;
   position: absolute;
+  top: 0;
   z-index: -1;
 `;
 
 const FlexInnerWrapper = styled(Flex)`
   width: 2.5em;
   height: 2.5em;
-  border-radius: ${props => props.theme.radii[4]};
+  border-radius: ${themeGet('radii.4')};
   text-align: center;
-  color: ${props => props.selected ? props.theme.colors.white : props.theme.colors.greys[1]};
-  background: ${props => props.selected && props.theme.colors.main};
+  color: ${props => props.selected ? themeGet('colors.white') : themeGet('colors.greys.1')};
+  background: ${props => props.selected && themeGet('colors.main')};
   position: relative;
   user-select: none;
 
   ${props => props.selected && (props.selectedStart || props.selectedMiddle) && css`
     ::after {
       ${selectedStyles};
-      top: 0;
-      left: 0;
-      border-right: 9999em solid ${props.theme.colors.main};
-      border-top-left-radius: ${props => props.theme.radii[4]};
-      border-bottom-left-radius: ${props => props.theme.radii[4]};
+      left: 50%;
     }
-  `}
+  `};
 
   ${props => props.selected && (props.selectedEnd || props.selectedMiddle) && css`
     ::before {
       ${selectedStyles};
-      top: 0;
-      right: 0;
-      border-left: 9999em solid ${props.theme.colors.main};
-      border-top-right-radius: ${props => props.theme.radii[4]};
-      border-bottom-right-radius: ${props => props.theme.radii[4]};
+      right: 50%;
     }
-  `}
+  `};
 `;
 
 const FlexOuterWrapper = styled(Flex)`
@@ -49,7 +45,7 @@ const FlexOuterWrapper = styled(Flex)`
 
   :hover > ${FlexInnerWrapper} {
     background: ${props => (
-      props.selected ? props.theme.colors.mainHover : props.theme.colors.mainSelectedHover
+      props.selected ? themeGet('colors.mainHover') : themeGet('colors.mainSelectedHover')
     )};
   }
 `;
