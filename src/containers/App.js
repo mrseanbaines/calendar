@@ -30,9 +30,8 @@ class App extends PureComponent {
     const { startDate, endDate } = this.state;
 
     if (
-      (startDate && endDate) ||
-      (startDate && isBefore(day, startDate)) ||
-      (startDate && isSameDay(day, startDate))
+      startDate &&
+      (endDate || isBefore(day, startDate) || isSameDay(day, startDate))
     ) {
       this.setState({
         startDate: day,

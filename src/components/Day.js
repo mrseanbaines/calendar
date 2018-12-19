@@ -20,7 +20,7 @@ const FlexInnerWrapper = styled(Flex)`
   border-radius: ${themeGet('radii.4')};
   text-align: center;
   color: ${props => props.selected ? themeGet('colors.white') : themeGet('colors.greys.1')};
-  background: ${props => props.selected && props.theme.colors.main};
+  background: ${props => props.selected && themeGet('colors.main')};
   position: relative;
   user-select: none;
 
