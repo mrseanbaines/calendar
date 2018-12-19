@@ -42,6 +42,7 @@ const FlexInnerWrapper = styled(Flex)`
 const FlexOuterWrapper = styled(Flex)`
   cursor: pointer;
   overflow: hidden;
+  height: 100%;
 
   :hover > ${FlexInnerWrapper} {
     background: ${props => (
@@ -57,7 +58,6 @@ export default memo(({ dayContents, handleDateSelect, day, ...props }) => (
         onClick={() => handleDateSelect(day)}
         justifyContent='center'
         alignItems='center'
-        style={{ height: '100%' }}
         {...props}
       >
         <FlexInnerWrapper
