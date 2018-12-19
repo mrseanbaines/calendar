@@ -20,18 +20,18 @@ const FlexInnerWrapper = styled(Flex)`
   border-radius: ${themeGet('radii.4')};
   text-align: center;
   color: ${props => props.selected ? themeGet('colors.white') : themeGet('colors.greys.1')};
-  background: ${props => props.selected && themeGet('colors.main')};
+  background: ${props => props.selected && props.theme.colors.main};
   position: relative;
   user-select: none;
 
-  ${props => props.selected && (props.selectedStart || props.selectedMiddle) && css`
+  ${props => (props.selectedStart || props.selectedMiddle) && css`
     ::after {
       ${selectedStyles};
       left: 50%;
     }
   `};
 
-  ${props => props.selected && (props.selectedEnd || props.selectedMiddle) && css`
+  ${props => (props.selectedEnd || props.selectedMiddle) && css`
     ::before {
       ${selectedStyles};
       right: 50%;
