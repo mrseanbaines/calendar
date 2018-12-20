@@ -3,11 +3,10 @@ import { Flex, Box } from '@rebass/grid';
 import {
   getDate,
   isSameDay,
-  isAfter,
-  isBefore,
 } from 'date-fns';
 import { END_DATE } from '~/constants';
 import Day from '~/components/Day';
+import { isBetweenDates } from '../helpers';
 
 export default memo(({
   month,
@@ -23,11 +22,12 @@ export default memo(({
     {month.weeks.map((week, i) => (
       <Flex key={i} flexWrap='wrap'>
         {week.map((day, i) => {
-          const isStartDate = isSameDay(day, startDate);
-          const isEndDate = isSameDay(day, endDate);
+          const isStartDate = startDate && isSameDay(day, startDate);
+          const isEndDate = endDate && isSameDay(day, endDate);
           const isHoveredDate = isSameDay(day, hoveredDate);
           const bothDatesSelected = startDate && endDate;
-          const isBetweenStartAnd = date => isBefore(day, date) && isAfter(day, startDate);
+          const isBetweenStartAndEndDate = isBetweenDates(startDate)(endDate)(day);
+          const isBetweenStartAndHoveredDate = isBetweenDates(startDate)(hoveredDate)(day);
 
           return (
             <Box key={i} width={1/7}>
@@ -38,11 +38,11 @@ export default memo(({
                 handleDateHover={handleDateHover}
                 selectedStart={bothDatesSelected && isStartDate}
                 selectedEnd={bothDatesSelected && isEndDate}
-                selectedMiddle={bothDatesSelected && isBetweenStartAnd(endDate)}
-                isDaySelected={isStartDate || isEndDate || isBetweenStartAnd(endDate)}
+                selectedMiddle={bothDatesSelected && isBetweenStartAndEndDate}
+                isDaySelected={isStartDate || isEndDate || isBetweenStartAndEndDate}
                 isDayHighlighted={
                   (startDate && focusedDate === END_DATE) &&
-                  (isBetweenStartAnd(hoveredDate) || isStartDate || isHoveredDate)
+                  (isBetweenStartAndHoveredDate || isStartDate || isHoveredDate)
                 }
               />
             </Box>

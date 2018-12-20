@@ -10,6 +10,7 @@ import {
   addMonths,
   eachDay,
   isBefore,
+  isAfter,
   isSameDay,
 } from 'date-fns';
 
@@ -70,4 +71,20 @@ export const getWeek = (weekStartsOn = 1) => {
   return week;
 }
 
-export const isSameOrBefore = day1 => day2 => isBefore(day1, day2) || isSameDay(day1, day2);
+export const isSameOrBefore = (
+  day1 => (
+    day2 => (
+      isBefore(day1, day2) || isSameDay(day1, day2)
+    )
+  )
+);
+
+export const isBetweenDates = (
+  startDate => (
+    endDate => (
+      day => (
+        isBefore(day, endDate) && isAfter(day, startDate)
+      )
+    )
+  )
+);
