@@ -1,15 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
-import {  } from 'styled-components';
-import {
-  format,
-  addMonths,
-  isSameDay,
-  isBefore,
-} from 'date-fns';
+import { format } from 'date-fns';
 import Month from '~/components/Month';
 import WeekDayHeader from '~/components/WeekDayHeader';
 import MonthHeading from '~/components/MonthHeading';
-import { getMonths, getWeek } from '~/helpers';
+import { getMonths, getWeek, isSameOrBefore } from '~/helpers';
 import {
   START_DATE,
   END_DATE,
@@ -23,34 +17,40 @@ class App extends PureComponent {
       startDate: null,
       endDate: null,
       focusedDate: START_DATE,
+      hoveredDate: null,
     };
   }
 
   handleDateSelect = day => {
     const { startDate, endDate } = this.state;
+    let nextState;
 
-    if (
-      startDate &&
-      (endDate || isBefore(day, startDate) || isSameDay(day, startDate))
-    ) {
-      this.setState({
+    if (!startDate || isSameOrBefore(day)(startDate) || (startDate && endDate)) {
+      nextState = {
         startDate: day,
         endDate: null,
         focusedDate: END_DATE,
-      });
+      }
     } else {
-      this.setState(({ focusedDate }) => ({
-        [focusedDate]: day,
-        focusedDate: focusedDate === START_DATE ? END_DATE : START_DATE,
-      }));
+      nextState = {
+        startDate: startDate,
+        endDate: day,
+        focusedDate: START_DATE,
+      }
     }
+
+    this.setState(nextState);
+  }
+
+  handleDateHover = day => {
+    this.setState({ hoveredDate: day });
   }
 
   render() {
     const months = this.props.months();
     const week = this.props.week();
     const { weekDayFormat, singleLetterWeekDay } = this.props;
-    const { startDate, endDate } = this.state;
+    const { startDate, endDate, hoveredDate, focusedDate } = this.state;
 
     return (
       <Fragment>
@@ -71,8 +71,11 @@ class App extends PureComponent {
               id={format(month.date, 'MMM-YYYY').toLowerCase()}
               month={month}
               startDate={startDate}
+              hoveredDate={hoveredDate}
+              focusedDate={focusedDate}
               endDate={endDate}
               handleDateSelect={this.handleDateSelect}
+              handleDateHover={this.handleDateHover}
             />
           </Fragment>
         ))}
@@ -84,7 +87,7 @@ class App extends PureComponent {
 
 App.defaultProps = {
   weekStartsOn: 1,
-  firstMonth: addMonths(new Date(), 0),
+  firstMonth: new Date(),
   numberOfMonths: 3,
   weekDayFormat: 'dd',
   singleLetterWeekDay: true,

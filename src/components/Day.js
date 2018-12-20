@@ -8,7 +8,7 @@ const selectedStyles = css`
   content: '';
   background: ${themeGet('colors.main')};
   height: 100%;
-  width: 100%;
+  width: ${themeGet('radii.4')};
   position: absolute;
   top: 0;
   z-index: -1;
@@ -19,10 +19,17 @@ const FlexInnerWrapper = styled(Flex)`
   height: 2.5em;
   border-radius: ${themeGet('radii.4')};
   text-align: center;
-  color: ${props => props.selected ? themeGet('colors.white') : themeGet('colors.greys.1')};
-  background: ${props => props.selected && themeGet('colors.main')};
+  color: ${props => props.isDaySelected ? themeGet('colors.white') : themeGet('colors.greys.1')};
   position: relative;
   user-select: none;
+
+  ${props => (props.isDayHighlighted) && css`
+    background: ${themeGet('colors.mainSelectedHover')};
+  `};
+
+  ${props => (props.isDaySelected) && css`
+    background: ${themeGet('colors.main')};
+  `};
 
   ${props => (props.selectedStart || props.selectedMiddle) && css`
     ::after {
@@ -46,22 +53,31 @@ const FlexOuterWrapper = styled(Flex)`
 
   :hover > ${FlexInnerWrapper} {
     background: ${props => (
-      props.selected ? themeGet('colors.mainHover') : themeGet('colors.mainSelectedHover')
+      props.isDaySelected ? themeGet('colors.mainHover') : themeGet('colors.mainSelectedHover')
     )};
   }
 `;
 
-export default memo(({ dayContents, handleDateSelect, day, ...props }) => (
+export default memo(({
+  dayContents,
+  handleDateSelect,
+  handleDateHover,
+  day,
+  isDayHighlighted,
+  ...props,
+}) => (
   <SquareContainer>
     {dayContents && (
       <FlexOuterWrapper
         onClick={() => handleDateSelect(day)}
+        onMouseEnter={e => handleDateHover(day, e)}
         justifyContent='center'
         alignItems='center'
         {...props}
       >
         <FlexInnerWrapper
           {...props}
+          isDayHighlighted={isDayHighlighted}
           fontSize={[16, 18, 20, 22]}
           justifyContent='center'
           alignItems='center'
