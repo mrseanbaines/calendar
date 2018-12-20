@@ -23,25 +23,29 @@ const FlexInnerWrapper = styled(Flex)`
   position: relative;
   user-select: none;
 
-  ${props => (props.isDayHighlighted) && css`
-    background: ${themeGet('colors.mainSelectedHover')};
-  `};
-
   ${props => (props.isDaySelected) && css`
     background: ${themeGet('colors.main')};
   `};
 
-  ${props => (props.selectedStart || props.selectedMiddle) && css`
+  ${props => (props.selectedStart || props.selectedMiddle || props.hoveredStart || props.hoveredMiddle) && css`
     ::after {
       ${selectedStyles};
       left: 50%;
     }
   `};
 
-  ${props => (props.selectedEnd || props.selectedMiddle) && css`
+  ${props => (props.selectedEnd || props.selectedMiddle || props.hoveredEnd || props.hoveredMiddle) && css`
     ::before {
       ${selectedStyles};
       right: 50%;
+    }
+  `};
+
+  ${props => (props.isDayHighlighted) && css`
+
+    &::before,
+    &::after {
+      background: ${themeGet('colors.mainSelectedHover')};
     }
   `};
 `;
@@ -66,14 +70,19 @@ export default memo(({
   selectedEnd,
   selectedMiddle,
   day,
-  handleDateHover,
+  handleMouseEnter,
+  handleMouseLeave,
   isDayHighlighted,
+  hoveredStart,
+  hoveredEnd,
+  hoveredMiddle,
 }) => (
   <SquareContainer>
     {dayContents && (
       <FlexOuterWrapper
         onClick={() => handleDateSelect(day)}
-        onMouseEnter={e => handleDateHover(day, e)}
+        onMouseEnter={() => handleMouseEnter(day)}
+        onMouseLeave={() => handleMouseLeave(day)}
         justifyContent='center'
         alignItems='center'
         isDaySelected={isDaySelected}
@@ -87,6 +96,9 @@ export default memo(({
           selectedEnd={selectedEnd}
           selectedMiddle={selectedMiddle}
           isDayHighlighted={isDayHighlighted}
+          hoveredStart={hoveredStart}
+          hoveredEnd={hoveredEnd}
+          hoveredMiddle={hoveredMiddle}
         >
           {dayContents}
         </FlexInnerWrapper>

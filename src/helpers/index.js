@@ -79,11 +79,30 @@ export const isSameOrBefore = (
   )
 );
 
+export const isSameOrAfter = (
+  day1 => (
+    day2 => (
+      isAfter(day1, day2) || isSameDay(day1, day2)
+    )
+  )
+);
+
 export const isBetweenDates = (
   startDate => (
     endDate => (
       day => (
         isBefore(day, endDate) && isAfter(day, startDate)
+      )
+    )
+  )
+);
+
+export const isInclusivelyBetweenDates = (
+  startDate => (
+    endDate => (
+      day => (
+        (isBefore(day, endDate) && isAfter(day, startDate)) ||
+        isSameDay(day, startDate) || isSameDay(day, endDate)
       )
     )
   )

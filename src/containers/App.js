@@ -42,8 +42,13 @@ class App extends PureComponent {
     this.setState(nextState);
   }
 
-  handleDateHover = day => {
+  handleMouseEnter = day => {
+    console.log(day)
     this.setState({ hoveredDate: day });
+  }
+
+  handleMouseLeave = day => {
+    this.setState({ hoveredDate: null });
   }
 
   render() {
@@ -75,7 +80,8 @@ class App extends PureComponent {
               focusedDate={focusedDate}
               endDate={endDate}
               handleDateSelect={this.handleDateSelect}
-              handleDateHover={this.handleDateHover}
+              handleMouseEnter={this.handleMouseEnter}
+              handleMouseLeave={this.handleMouseLeave}
             />
           </Fragment>
         ))}
