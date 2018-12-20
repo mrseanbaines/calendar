@@ -59,12 +59,15 @@ const FlexOuterWrapper = styled(Flex)`
 `;
 
 export default memo(({
-  dayContents,
   handleDateSelect,
-  handleDateHover,
+  dayContents,
+  isDaySelected,
+  selectedStart,
+  selectedEnd,
+  selectedMiddle,
   day,
+  handleDateHover,
   isDayHighlighted,
-  ...props,
 }) => (
   <SquareContainer>
     {dayContents && (
@@ -73,14 +76,17 @@ export default memo(({
         onMouseEnter={e => handleDateHover(day, e)}
         justifyContent='center'
         alignItems='center'
-        {...props}
+        isDaySelected={isDaySelected}
       >
         <FlexInnerWrapper
-          {...props}
-          isDayHighlighted={isDayHighlighted}
           fontSize={[16, 18, 20, 22]}
           justifyContent='center'
           alignItems='center'
+          isDaySelected={isDaySelected}
+          selectedStart={selectedStart}
+          selectedEnd={selectedEnd}
+          selectedMiddle={selectedMiddle}
+          isDayHighlighted={isDayHighlighted}
         >
           {dayContents}
         </FlexInnerWrapper>
