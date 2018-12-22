@@ -10,7 +10,7 @@ import {
   addMonths,
   eachDay,
   isBefore,
-  isAfter,
+  // isAfter,
   isSameDay,
 } from 'date-fns';
 
@@ -79,31 +79,46 @@ export const isSameOrBefore = (
   )
 );
 
-export const isSameOrAfter = (
-  day1 => (
-    day2 => (
-      isAfter(day1, day2) || isSameDay(day1, day2)
-    )
-  )
-);
+// export const isSameOrAfter = (
+//   day1 => (
+//     day2 => (
+//       isAfter(day1, day2) || isSameDay(day1, day2)
+//     )
+//   )
+// );
 
-export const isBetweenDates = (
-  startDate => (
-    endDate => (
-      day => (
-        isBefore(day, endDate) && isAfter(day, startDate)
-      )
-    )
-  )
-);
+// export const isBetweenDates = (
+//   startDate => (
+//     endDate => (
+//       day => (
+//         isBefore(day, endDate) && isAfter(day, startDate)
+//       )
+//     )
+//   )
+// );
 
-export const isInclusivelyBetweenDates = (
-  startDate => (
-    endDate => (
-      day => (
-        (isBefore(day, endDate) && isAfter(day, startDate)) ||
-        isSameDay(day, startDate) || isSameDay(day, endDate)
-      )
-    )
-  )
-);
+// export const isInclusivelyBetweenDates = (
+//   startDate => (
+//     endDate => (
+//       day => (
+//         (isBefore(day, endDate) && isAfter(day, startDate)) ||
+//         isSameDay(day, startDate) || isSameDay(day, endDate)
+//       )
+//     )
+//   )
+// );
+
+export const getSelectedDates = (startDate, endDate) => {
+  const selectedDays = [];
+
+  if (startDate) {
+    let date = startDate;
+
+    while (isSameOrBefore(date)(endDate)) {
+      selectedDays.push(date);
+      date = addDays(date, 1);
+    }
+  }
+
+  return selectedDays;
+};

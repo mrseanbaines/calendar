@@ -1,9 +1,14 @@
 import React, { PureComponent, Fragment } from 'react';
-import { format } from 'date-fns';
+import { format, isSameDay } from 'date-fns';
 import Month from '~/components/Month';
 import WeekDayHeader from '~/components/WeekDayHeader';
 import MonthHeading from '~/components/MonthHeading';
-import { getMonths, getWeek, isSameOrBefore } from '~/helpers';
+import {
+  getMonths,
+  getWeek,
+  isSameOrBefore,
+  getSelectedDates,
+} from '~/helpers';
 import {
   START_DATE,
   END_DATE,
@@ -17,13 +22,17 @@ class App extends PureComponent {
       startDate: null,
       endDate: null,
       focusedDate: START_DATE,
-      hoveredDate: null,
     };
   }
 
   handleDateSelect = day => {
     const { startDate, endDate } = this.state;
     let nextState;
+
+    this.resetClassName('hovered');
+    this.resetClassName('selected');
+
+    document.querySelector(`[data-date='${day}']`).classList.add('selected');
 
     if (!startDate || isSameOrBefore(day)(startDate) || (startDate && endDate)) {
       nextState = {
@@ -37,25 +46,55 @@ class App extends PureComponent {
         endDate: day,
         focusedDate: START_DATE,
       }
+
+      const selectedDates = getSelectedDates(startDate, day);
+      this.addStylingClasses(selectedDates, 'selected');
     }
 
     this.setState(nextState);
   }
 
-  handleMouseEnter = day => {
-    console.log(day)
-    this.setState({ hoveredDate: day });
+  addStylingClasses = (selectedDates, className) => {
+    const days = selectedDates.map(day => (
+      document.querySelector(`[data-date='${day}']`)
+    ));
+
+    days.forEach((day, i, arr) => {
+      if (i === 0) {
+        day.classList.add(className, 'start');
+      } else if (i === arr.length - 1) {
+        day.classList.add(className, 'end');
+      } else {
+        day.classList.add(className, 'mid');
+      }
+    });
   }
 
-  handleMouseLeave = day => {
-    this.setState({ hoveredDate: null });
+  resetClassName = className => {
+    const days = document.querySelectorAll('.day');
+
+    days.forEach(day => (
+      day.classList.contains(className) && (
+        day.classList.remove(className, 'start', 'mid', 'end')
+      )
+    ));
+  }
+
+  handleMouseEnter = hoveredDate => {
+    const { startDate, endDate } = this.state;
+
+    this.resetClassName('hovered');
+
+    if (startDate && !endDate && !isSameDay(hoveredDate, startDate)) {
+      const selectedDates = getSelectedDates(startDate, hoveredDate);
+      this.addStylingClasses(selectedDates, 'hovered');
+    }
   }
 
   render() {
     const months = this.props.months();
     const week = this.props.week();
     const { weekDayFormat, singleLetterWeekDay } = this.props;
-    const { startDate, endDate, hoveredDate, focusedDate } = this.state;
 
     return (
       <Fragment>
@@ -75,13 +114,8 @@ class App extends PureComponent {
             <Month
               id={format(month.date, 'MMM-YYYY').toLowerCase()}
               month={month}
-              startDate={startDate}
-              hoveredDate={hoveredDate}
-              focusedDate={focusedDate}
-              endDate={endDate}
               handleDateSelect={this.handleDateSelect}
               handleMouseEnter={this.handleMouseEnter}
-              handleMouseLeave={this.handleMouseLeave}
             />
           </Fragment>
         ))}
