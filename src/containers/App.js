@@ -83,7 +83,7 @@ class App extends PureComponent {
     ));
   }
 
-  handleMouseEnter = hoveredDate => {
+  handleDateHover = hoveredDate => {
     const { startDate, endDate } = this.state;
 
     this.resetClassName('hovered');
@@ -116,7 +116,7 @@ class App extends PureComponent {
               id={format(month.date, 'MMM-YYYY').toLowerCase()}
               month={month}
               handleDateSelect={this.handleDateSelect}
-              handleMouseEnter={this.handleMouseEnter}
+              handleDateHover={this.handleDateHover}
             />
           </Fragment>
         ))}

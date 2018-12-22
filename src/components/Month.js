@@ -7,7 +7,7 @@ export default memo(({
   id,
   month,
   handleDateSelect,
-  handleMouseEnter,
+  handleDateHover,
 }) => (
   <div id={id}>
     {month.weeks.map((week, i) => (
@@ -19,7 +19,7 @@ export default memo(({
                 day={day}
                 dayContents={day && getDate(day)}
                 handleDateSelect={handleDateSelect}
-                handleMouseEnter={handleMouseEnter}
+                handleDateHover={handleDateHover}
               />
             </Box>
           );
