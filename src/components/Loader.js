@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import { Flex } from '@rebass/grid';
 
-const rotate = keyframes`
+const loading = keyframes`
   0% {
     transform: translateY(0);
   }
@@ -23,7 +23,7 @@ const StyledLoader = styled.div`
   border-radius: 50%;
   margin: 0.2em;
   ${({ delay }) => css`
-  animation: ${rotate} 800ms ${delay} ease-in infinite;
+  animation: ${loading} 800ms ${delay} ease-in infinite;
 `}
 `;
 

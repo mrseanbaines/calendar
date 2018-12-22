@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { themeGet } from 'styled-system';
 import { Flex } from '@rebass/grid';
 import { SquareContainer } from '~/components/Containers';
@@ -48,7 +48,7 @@ const FlexInnerWrapper = styled(Flex)`
   }
 
   &.selected {
-    background: ${themeGet('colors.main')};
+    background-color: ${themeGet('colors.main')};
     color: ${themeGet('colors.white')};
   }
 `;
@@ -64,6 +64,37 @@ const FlexOuterWrapper = styled(Flex)`
     &.selected {
       background: ${themeGet('colors.mainHover')};
     }
+  }
+`;
+
+const splash = keyframes`
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+`;
+
+const Splash = styled.img`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scale(1);
+  opacity: 0;
+
+  .selected:not(.mid) & {
+    animation: ${splash} 600ms ease;
   }
 `;
 
@@ -88,6 +119,7 @@ export default memo(({
           data-date={day}
           className='day'
         >
+          <Splash src="assets/images/splash.svg" alt="" />
           {dayContents}
         </FlexInnerWrapper>
       </FlexOuterWrapper>

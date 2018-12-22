@@ -24,8 +24,8 @@ class App extends PureComponent {
       focusedDate: START_DATE,
     };
 
-    this.months = this.props.months();
-    this.week = this.props.week();
+    this.months = props.months();
+    this.week = props.week();
   }
 
   handleDateSelect = day => {
