@@ -76,7 +76,7 @@ export default memo(({
   <SquareContainer>
     {dayContents && (
       <FlexOuterWrapper
-        onClick={e => handleDateSelect(day, e)}
+        onClick={() => handleDateSelect(day)}
         onMouseEnter={() => handleMouseEnter(day)}
         justifyContent='center'
         alignItems='center'

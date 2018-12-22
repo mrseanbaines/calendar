@@ -7,6 +7,11 @@ import theme from '~/theme';
 import Loader from '~/components/Loader';
 const App = lazy(() => import('~/containers/App'));
 
+if (process.env.NODE_ENV !== 'production') {
+  const { whyDidYouUpdate } = require('why-did-you-update');
+  whyDidYouUpdate(React);
+}
+
 const GlobalStyles = createGlobalStyle`
   ${reset};
   @import url('https://fonts.googleapis.com/css?family=Barlow:600');

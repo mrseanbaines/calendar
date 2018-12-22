@@ -23,6 +23,9 @@ class App extends PureComponent {
       endDate: null,
       focusedDate: START_DATE,
     };
+
+    this.months = this.props.months();
+    this.week = this.props.week();
   }
 
   handleDateSelect = day => {
@@ -92,20 +95,18 @@ class App extends PureComponent {
   }
 
   render() {
-    const months = this.props.months();
-    const week = this.props.week();
     const { weekDayFormat, singleLetterWeekDay } = this.props;
 
     return (
       <Fragment>
 
         <WeekDayHeader
-          week={week}
+          week={this.week}
           weekDayFormat={weekDayFormat}
           singleLetterWeekDay={singleLetterWeekDay}
         />
 
-        {months.map(month => (
+        {this.months.map(month => (
           <Fragment key={format(month.date, 'MMM-YYYY')}>
             <MonthHeading
               month={month}
