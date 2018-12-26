@@ -67,37 +67,6 @@ const FlexOuterWrapper = styled(Flex)`
   }
 `;
 
-const splash = keyframes`
-  0% {
-    transform: scale(0);
-    opacity: 1;
-  }
-
-  50% {
-    transform: scale(1.2);
-    opacity: 1;
-  }
-
-  100% {
-    transform: scale(1.3);
-    opacity: 0;
-  }
-`;
-
-const Splash = styled.img`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: scale(1);
-  opacity: 0;
-
-  .selected:not(.mid) & {
-    animation: ${splash} 600ms ease;
-  }
-`;
-
 export default memo(({
   day,
   dayContents,
@@ -119,7 +88,6 @@ export default memo(({
           data-date={day}
           className='day'
         >
-          <Splash src="assets/images/splash.svg" alt="" />
           {dayContents}
         </FlexInnerWrapper>
       </FlexOuterWrapper>
