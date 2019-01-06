@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { themeGet } from 'styled-system';
 import { Flex } from '@rebass/grid';
 import { SquareContainer } from '~/components/Containers';
